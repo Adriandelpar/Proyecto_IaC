@@ -12,3 +12,17 @@ resource "libvirt_network" "nat" {
     enabled = true
   }
 }
+
+resource "libvirt_network" "datos" {
+  name      = "red_datos"
+  mode      = "none"
+  addresses = ["172.16.0.0/24"]
+
+  dhcp {
+    enabled = false
+  }
+
+  dns {
+    enabled = false
+  }
+}
