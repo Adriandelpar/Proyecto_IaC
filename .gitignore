@@ -11,3 +11,5 @@ ansible/inventario*
 *.qcow2
 *.img
 *.iso
+
+ansible/inventario.ini
