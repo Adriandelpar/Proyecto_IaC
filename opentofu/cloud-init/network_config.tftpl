@@ -3,12 +3,12 @@ network:
   ethernets:
     nat:
       match:
-        macaddress: ${mac_nat}
+        macaddress: "${mac_nat}"
       set-name: nat0
       dhcp4: true
     datos:
       match:
-        macaddress: ${mac_datos}
+        macaddress: "${mac_datos}"
       set-name: datos0
       addresses:
         - ${ip_datos}/24

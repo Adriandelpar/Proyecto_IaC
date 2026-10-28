@@ -7,7 +7,7 @@ resource "libvirt_domain" "bd" {
   network_interface {
     network_id     = libvirt_network.nat.id
     mac            = local.maquinas.bd.mac_nat
-    wait_for_lease = false
+    wait_for_lease = true
   }
 
   network_interface {
