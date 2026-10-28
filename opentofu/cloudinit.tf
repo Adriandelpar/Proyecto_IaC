@@ -20,7 +20,7 @@ resource "libvirt_cloudinit_disk" "web" {
   user_data = templatefile("${path.module}/cloud-init/user_data.tftpl", {
     hostname      = "web"
     usuario       = var.usuario
-    clave_publica = trimspace(file(pathexpand(var.clave_publica)))
+    clave_publica = var.clave_publica
   })
 
   network_config = templatefile("${path.module}/cloud-init/network_config.tftpl", {
@@ -37,7 +37,7 @@ resource "libvirt_cloudinit_disk" "bd" {
   user_data = templatefile("${path.module}/cloud-init/user_data.tftpl", {
     hostname      = "bd"
     usuario       = var.usuario
-    clave_publica = trimspace(file(pathexpand(var.clave_publica)))
+    clave_publica = var.clave_publica
   })
 
   network_config = templatefile("${path.module}/cloud-init/network_config.tftpl", {
