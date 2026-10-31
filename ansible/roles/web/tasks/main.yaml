@@ -13,8 +13,8 @@
   ansible.builtin.file:
     path: "/var/www/{{ dominio }}"
     state: directory
-    owner: www-data
-    group: www-data
+    owner: root
+    group: root
     mode: "0755"
 
 - name: Descargar la aplicación guestbook_php
