@@ -1,0 +1,38 @@
+---
+- name: Instalar MariaDB y PyMySQL
+  ansible.builtin.apt:
+    name:
+      - mariadb-server
+      - python3-pymysql
+    state: present
+
+- name: Configurar MariaDB para escuchar solo en la red de datos
+  ansible.builtin.template:
+    src: bind.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/99-bind.cnf
+    mode: "0644"
+  notify: Reiniciar MariaDB
+
+- name: Arrancar y habilitar MariaDB
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+    enabled: true
+
+- name: Aplicar los cambios pendientes antes de seguir
+  ansible.builtin.meta: flush_handlers
+
+- name: Crear la base de datos
+  community.mysql.mysql_db:
+    name: "{{ bd_nombre }}"
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Crear el usuario, solo desde la IP de web
+  community.mysql.mysql_user:
+    name: "{{ bd_usuario }}"
+    password: "{{ bd_clave }}"
+    host: "{{ ip_web_datos }}"
+    priv: "{{ bd_nombre }}.*:ALL"
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock

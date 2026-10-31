@@ -4,3 +4,9 @@ paquetes_comunes:
   - curl
   - htop
   - git
+
+ip_web_datos: 172.16.0.10
+ip_bd_datos: 172.16.0.20
+bd_nombre: guestbook
+bd_usuario: guestbook
+bd_clave: guestbook_clave

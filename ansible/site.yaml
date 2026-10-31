@@ -4,3 +4,9 @@
   become: true
   roles:
     - commons
+
+- name: Base de datos
+  hosts: servidores_bd
+  become: true
+  roles:
+    - bd
