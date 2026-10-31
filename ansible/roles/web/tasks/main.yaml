@@ -1,0 +1,43 @@
+---
+- name: Instalar Apache y PHP
+  ansible.builtin.apt:
+    name:
+      - apache2
+      - php
+      - libapache2-mod-php
+      - php-mysql
+    state: present
+
+- name: Crear el directorio del sitio
+  ansible.builtin.file:
+    path: "/var/www/{{ dominio }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: Crear el virtual host
+  ansible.builtin.template:
+    src: vhost.conf.j2
+    dest: "/etc/apache2/sites-available/{{ dominio }}.conf"
+    mode: "0644"
+  notify: Recargar Apache
+
+- name: Activar el virtual host
+  ansible.builtin.file:
+    src: "/etc/apache2/sites-available/{{ dominio }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ dominio }}.conf"
+    state: link
+  notify: Recargar Apache
+
+- name: Desactivar el sitio por defecto
+  ansible.builtin.file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: Recargar Apache
+
+- name: Arrancar y habilitar Apache
+  ansible.builtin.service:
+    name: apache2
+    state: started
+    enabled: true
