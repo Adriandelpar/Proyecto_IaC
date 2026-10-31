@@ -36,3 +36,25 @@
     priv: "{{ bd_nombre }}.*:ALL"
     state: present
     login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Copiar schema.sql
+  ansible.builtin.copy:
+    src: schema.sql
+    dest: /tmp/schema.sql
+    mode: "0644"
+
+- name: Comprobar si existe la tabla messages
+  community.mysql.mysql_query:
+    login_db: "{{ bd_nombre }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+    query: "SHOW TABLES LIKE 'messages'"
+  register: tabla_messages
+  changed_when: false
+
+- name: Importar schema.sql si falta la tabla
+  community.mysql.mysql_db:
+    name: "{{ bd_nombre }}"
+    state: import
+    target: /tmp/schema.sql
+    login_unix_socket: /run/mysqld/mysqld.sock
+  when: tabla_messages.rowcount[0] == 0

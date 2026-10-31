@@ -6,6 +6,7 @@
       - php
       - libapache2-mod-php
       - php-mysql
+      - php-mbstring
     state: present
 
 - name: Crear el directorio del sitio
@@ -15,6 +16,21 @@
     owner: www-data
     group: www-data
     mode: "0755"
+
+- name: Descargar la aplicación guestbook_php
+  ansible.builtin.git:
+    repo: "{{ repo }}"
+    dest: "/var/www/{{ dominio }}"
+    version: main
+    update: false
+
+- name: Generar config.php desde la plantilla
+  ansible.builtin.template:
+    src: config.php.j2
+    dest: "/var/www/{{ dominio }}/config.php"
+    owner: root
+    group: www-data
+    mode: "0640"
 
 - name: Crear el virtual host
   ansible.builtin.template:
@@ -34,6 +50,12 @@
   ansible.builtin.file:
     path: /etc/apache2/sites-enabled/000-default.conf
     state: absent
+  notify: Recargar Apache
+
+- name: Activar el módulo rewrite
+  ansible.builtin.command: a2enmod rewrite
+  args:
+    creates: /etc/apache2/mods-enabled/rewrite.load
   notify: Recargar Apache
 
 - name: Arrancar y habilitar Apache
