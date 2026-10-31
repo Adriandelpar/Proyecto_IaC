@@ -1,0 +1,6 @@
+---
+paquetes_comunes:
+  - vim
+  - curl
+  - htop
+  - git
