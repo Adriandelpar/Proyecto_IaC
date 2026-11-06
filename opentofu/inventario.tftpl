@@ -1,5 +1,7 @@
 [servidores_web]
-web ansible_host=${ip_web} ansible_user=${usuario}
+%{ for i, ip in ips_web ~}
+web${i + 1} ansible_host=${ip} ansible_user=${usuario}
+%{ endfor ~}
 
 [servidores_bd]
 bd ansible_host=${ip_bd} ansible_user=${usuario}
