@@ -27,3 +27,9 @@ variable "clave_publica" {
   type        = string
   default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1Pll8ZZb/tjVJ7utbE8fKQRFX8+xnG9cbeIeVXClhp adrian@atlas"
 }
+
+variable "num_webs" {
+  description = "Número de servidores web detrás del balanceador"
+  type        = number
+  default     = 2
+}

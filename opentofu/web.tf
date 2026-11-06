@@ -1,8 +1,8 @@
 resource "libvirt_domain" "web" {
-  name      = "web"
-  memory    = var.memoria
-  vcpu      = 1
-  cloudinit = libvirt_cloudinit_disk.web.id
+   name      = "web"
+   memory    = var.memoria
+   vcpu      = 1
+   cloudinit = libvirt_cloudinit_disk.web.id
 
   network_interface {
     network_id     = libvirt_network.nat.id

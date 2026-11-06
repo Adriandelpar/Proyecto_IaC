@@ -13,7 +13,8 @@ resource "libvirt_volume" "base_bd" {
 }
 
 resource "libvirt_volume" "web" {
-  name           = "web.qcow2"
+  count          = var.num_webs
+  name           = "web${count.index + 1}.qcow2"
   pool           = "default"
   base_volume_id = libvirt_volume.base_web.id
   size           = 10737418240
