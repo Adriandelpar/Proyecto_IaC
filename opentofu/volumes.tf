@@ -26,3 +26,10 @@ resource "libvirt_volume" "bd" {
   base_volume_id = libvirt_volume.base_bd.id
   size           = 10737418240
 }
+
+resource "libvirt_volume" "balanceador" {
+  name           = "balanceador.qcow2"
+  pool           = "default"
+  base_volume_id = libvirt_volume.base_web.id
+  size           = 10737418240
+}
