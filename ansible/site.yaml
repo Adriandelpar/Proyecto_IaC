@@ -16,3 +16,9 @@
   become: true
   roles:
     - web
+
+- name: Balanceador de carga
+  hosts: balanceadores
+  become: true
+  roles:
+    - haproxy
