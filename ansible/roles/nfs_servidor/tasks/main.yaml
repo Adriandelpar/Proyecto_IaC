@@ -1,0 +1,46 @@
+---
+- name: Instalar el servidor NFS
+  ansible.builtin.apt:
+    name: nfs-kernel-server
+    state: present
+
+- name: Crear el sistema de ficheros en el disco de datos
+  community.general.filesystem:
+    fstype: ext4
+    dev: "{{ disco_datos }}"
+
+- name: Montar el disco de datos de forma persistente
+  ansible.posix.mount:
+    path: "{{ nfs_dir }}"
+    src: "{{ disco_datos }}"
+    fstype: ext4
+    state: mounted
+
+- name: Permisos del directorio compartido
+  ansible.builtin.file:
+    path: "{{ nfs_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copiar el contenido de la web al disco compartido
+  ansible.builtin.copy:
+    src: index.html
+    dest: "{{ nfs_dir }}/index.html"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configurar las exportaciones NFS
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports
+    mode: "0644"
+  notify: Recargar exportaciones
+
+- name: Arrancar y habilitar el servidor NFS
+  ansible.builtin.service:
+    name: nfs-server
+    state: started
+    enabled: true

@@ -11,6 +11,12 @@
   roles:
     - bd
 
+- name: Almacenamiento compartido
+  hosts: servidores_almacen
+  become: true
+  roles:
+    - nfs_servidor
+
 - name: Servidor web
   hosts: servidores_web
   become: true

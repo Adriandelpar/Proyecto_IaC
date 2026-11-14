@@ -10,3 +10,6 @@ ip_bd_datos: 172.16.0.20
 bd_nombre: guestbook
 bd_usuario: guestbook
 bd_clave: guestbook_clave
+ip_almacen_datos: 172.16.0.30
+red_datos: 172.16.0.0/24
+nfs_dir: /srv/web
