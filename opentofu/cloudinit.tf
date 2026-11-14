@@ -10,6 +10,11 @@ locals {
       mac_datos = "52:54:00:20:00:03"
       ip_datos  = "172.16.0.5"
     }
+    almacen = {
+      mac_nat   = "52:54:00:10:00:04"
+      mac_datos = "52:54:00:20:00:04"
+      ip_datos  = "172.16.0.30"
+    }
   }
 }
 
@@ -62,5 +67,22 @@ resource "libvirt_cloudinit_disk" "balanceador" {
     mac_nat   = local.maquinas.balanceador.mac_nat
     mac_datos = local.maquinas.balanceador.mac_datos
     ip_datos  = local.maquinas.balanceador.ip_datos
+  })
+}
+
+resource "libvirt_cloudinit_disk" "almacen" {
+  name = "cloudinit-almacen.iso"
+  pool = "default"
+
+  user_data = templatefile("${path.module}/cloud-init/user_data.tftpl", {
+    hostname      = "almacen"
+    usuario       = var.usuario
+    clave_publica = var.clave_publica
+  })
+
+  network_config = templatefile("${path.module}/cloud-init/network_config.tftpl", {
+    mac_nat   = local.maquinas.almacen.mac_nat
+    mac_datos = local.maquinas.almacen.mac_datos
+    ip_datos  = local.maquinas.almacen.ip_datos
   })
 }

@@ -13,5 +13,9 @@ output "ips" {
       nat   = libvirt_domain.balanceador.network_interface[0].addresses[0]
       datos = "172.16.0.5"
     }
+    almacen = {
+      nat   = libvirt_domain.almacen.network_interface[0].addresses[0]
+      datos = "172.16.0.30"
+    }
   }
 }

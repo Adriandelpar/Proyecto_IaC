@@ -33,3 +33,17 @@ resource "libvirt_volume" "balanceador" {
   base_volume_id = libvirt_volume.base_web.id
   size           = 10737418240
 }
+
+resource "libvirt_volume" "almacen" {
+  name           = "almacen.qcow2"
+  pool           = "default"
+  base_volume_id = libvirt_volume.base_web.id
+  size           = 10737418240
+}
+
+resource "libvirt_volume" "datos_almacen" {
+  name   = "datos-almacen.qcow2"
+  pool   = "default"
+  format = "qcow2"
+  size   = 2147483648
+}
