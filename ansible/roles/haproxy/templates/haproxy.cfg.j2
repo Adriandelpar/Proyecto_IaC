@@ -22,6 +22,7 @@ frontend web
 backend servidores_web
     balance roundrobin
     option httpchk GET /
+    http-response set-header X-Servidor %[srv_name]
 {% for web in groups['servidores_web'] %}
     server {{ web }} {{ hostvars[web]['ip_datos'] }}:80 check
 {% endfor %}

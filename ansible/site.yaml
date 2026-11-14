@@ -21,6 +21,7 @@
   hosts: servidores_web
   become: true
   roles:
+    - nfs_cliente
     - web
 
 - name: Balanceador de carga

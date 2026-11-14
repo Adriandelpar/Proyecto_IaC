@@ -4,22 +4,6 @@
     name: apache2
     state: present
 
-- name: Crear el directorio del sitio
-  ansible.builtin.file:
-    path: "/var/www/{{ dominio }}"
-    state: directory
-    owner: root
-    group: root
-    mode: "0755"
-
-- name: Crear la página estática de esta web
-  ansible.builtin.template:
-    src: index.html.j2
-    dest: "/var/www/{{ dominio }}/index.html"
-    owner: root
-    group: root
-    mode: "0644"
-
 - name: Crear el virtual host
   ansible.builtin.template:
     src: vhost.conf.j2

@@ -1,0 +1,13 @@
+---
+- name: Instalar el cliente NFS
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+
+- name: Montar el contenido compartido de almacen
+  ansible.posix.mount:
+    path: "/var/www/{{ dominio }}"
+    src: "{{ ip_almacen_datos }}:{{ nfs_dir }}"
+    fstype: nfs
+    opts: ro,_netdev
+    state: mounted
