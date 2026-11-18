@@ -5,7 +5,7 @@ paquetes_comunes:
   - htop
   - git
 
-ip_web_datos: 172.16.0.10
+bd_host_permitido: "172.16.0.%"
 ip_bd_datos: 172.16.0.20
 bd_nombre: guestbook
 bd_usuario: guestbook

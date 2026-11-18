@@ -28,11 +28,11 @@
     state: present
     login_unix_socket: /run/mysqld/mysqld.sock
 
-- name: Crear el usuario, solo desde la IP de web
+- name: Crear el usuario de la aplicación para la red de datos
   community.mysql.mysql_user:
     name: "{{ bd_usuario }}"
     password: "{{ bd_clave }}"
-    host: "{{ ip_web_datos }}"
+    host: "{{ bd_host_permitido }}"
     priv: "{{ bd_nombre }}.*:ALL"
     state: present
     login_unix_socket: /run/mysqld/mysqld.sock
