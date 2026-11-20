@@ -24,13 +24,20 @@
     group: root
     mode: "0755"
 
-- name: Copiar el contenido de la web al disco compartido
-  ansible.builtin.copy:
-    src: index.html
-    dest: "{{ nfs_dir }}/index.html"
+- name: Descargar la aplicación guestbook en el disco compartido
+  ansible.builtin.git:
+    repo: "{{ repo }}"
+    dest: "{{ nfs_dir }}/guestbook"
+    version: main
+    update: false
+
+- name: Generar config.php de la aplicación
+  ansible.builtin.template:
+    src: config.php.j2
+    dest: "{{ nfs_dir }}/guestbook/config.php"
     owner: root
-    group: root
-    mode: "0644"
+    group: www-data
+    mode: "0640"
 
 - name: Configurar las exportaciones NFS
   ansible.builtin.template:
