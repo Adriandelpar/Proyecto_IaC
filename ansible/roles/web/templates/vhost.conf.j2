@@ -1,9 +1,10 @@
 <VirtualHost *:80>
     ServerName {{ dominio }}
-    DocumentRoot /var/www/{{ dominio }}
+    DocumentRoot /var/www/{{ dominio }}/guestbook
 
-    <Directory /var/www/{{ dominio }}>
+    <Directory /var/www/{{ dominio }}/guestbook>
         Require all granted
+        AllowOverride All
     </Directory>
 
     ErrorLog ${APACHE_LOG_DIR}/{{ dominio }}_error.log

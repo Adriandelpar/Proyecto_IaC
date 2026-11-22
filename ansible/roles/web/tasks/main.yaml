@@ -1,7 +1,12 @@
 ---
-- name: Instalar Apache
+- name: Instalar Apache y PHP
   ansible.builtin.apt:
-    name: apache2
+    name:
+      - apache2
+      - php
+      - libapache2-mod-php
+      - php-mysql
+      - php-mbstring
     state: present
 
 - name: Crear el virtual host
@@ -22,6 +27,12 @@
   ansible.builtin.file:
     path: /etc/apache2/sites-enabled/000-default.conf
     state: absent
+  notify: Recargar Apache
+
+- name: Activar el módulo rewrite
+  ansible.builtin.command: a2enmod rewrite
+  args:
+    creates: /etc/apache2/mods-enabled/rewrite.load
   notify: Recargar Apache
 
 - name: Arrancar y habilitar Apache
